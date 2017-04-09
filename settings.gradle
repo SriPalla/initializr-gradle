@@ -1,0 +1,8 @@
+rootProject.name = 'blueprint'
+include ':blueprint-actuator'
+include ':blueprint-generator'
+include ':blueprint-web'
+
+project(':blueprint-actuator').projectDir = "$rootDir/initializr-actuator" as File
+project(':blueprint-generator').projectDir = "$rootDir/initializr-generator" as File
+project(':blueprint-web').projectDir = "$rootDir/initializr-web" as File

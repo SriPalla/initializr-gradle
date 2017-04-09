@@ -1,0 +1,47 @@
+allprojects {
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+    group = 'com.usaa.itps.blueprint'
+    version = '1.0.0-SNAPSHOT'
+}
+
+subprojects {
+    //apply plugin: 'java'
+    apply plugin: 'groovy'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    task packageSources(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+    artifacts.archives packageSources
+    repositories {
+        mavenLocal()
+
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+}
+project(':blueprint-actuator') {
+    dependencies {
+        compile project(':blueprint-generator')
+        compile project(':blueprint-web')
+    }
+}
+project(':blueprint-web') {
+    dependencies {
+        compile project(':blueprint-generator')
+    }
+}

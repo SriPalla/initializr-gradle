@@ -1,0 +1,41 @@
+image: docker.repo.usaa.com/usaa/java-ci:2.0.0
+stages:
+  - build
+  - test
+  - publish
+
+build_artifact:
+  stage: build
+  script:
+    - ./gradlew build
+  tags:
+    - docker
+
+analyze:
+  stage: test
+  script:
+    - ./gradlew test jacoco
+#     if case protects from failing if code coverage is skipped
+    - if [ -a ./<%if (packaging == "ear" || packaging == "zip") {%><%=name+"/"%><%}%>build/reports/jacoco/test/html/index.html ]; then cat ./<%if (packaging == "ear" || packaging == "zip") {%><%=name+"/"%><%}%>build/reports/jacoco/test/html/index.html; fi
+  tags:
+    - docker
+  except:
+    - master
+
+analyze_master:
+  stage: test
+  script:
+    - ./gradlew jacoco sonarqube
+#     if case protects from failing if code coverage is skipped
+    - if [ -a ./<%if (packaging == "ear" || packaging == "zip") {%><%=name+"/"%><%}%>build/reports/jacoco/test/html/index.html ]; then cat ./<%if (packaging == "ear" || packaging == "zip") {%><%=name+"/"%><%}%>build/reports/jacoco/test/html/index.html; fi
+  tags:
+    - docker
+  only:
+    - master
+
+publish:
+  stage: publish
+  script:
+    - ./gradlew artifactoryPublish <% if (packaging != "jar") { %>ucdPublish<%}%>
+  tags:
+    - docker

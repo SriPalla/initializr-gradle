@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd" id="Application_ID" version="5">
+    <display-name>${name}EAR</display-name>
+    <module id="Module_1404334226710">
+        <web>
+            <web-uri>${name}.war</web-uri>
+            <context-root>inet/${name}</context-root>
+        </web>
+    </module>
+    <library-directory>lib</library-directory>
+</application>

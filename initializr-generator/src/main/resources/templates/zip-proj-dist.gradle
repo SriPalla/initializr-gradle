@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        maven { url "https://repo.usaa.com/artifactory/usaa-mvn" }
+    }
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.4"
+        classpath "com.usaa.plugin.gradle:gradle-build-defaults-plugin:1.+"
+        classpath 'com.usaa.plugin.gradle:gradle-ucd-plugin:1.+'
+
+    }
+}
+
+apply plugin: 'distribution'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'ucd-publish'
+apply plugin: 'build-defaults'
+
+repositories {
+    maven { url "https://repo.usaa.com/artifactory/usaa-mvn" }
+}
+
+description = '${description}'
+
+distributions {
+    main {
+        contents {
+            from { 'src/main/dist' }
+            into('lib'){
+                from project(':${name}').configurations.runtime //downloads dependencies from application project
+            }
+            into '/'
+        }
+    }
+}
+
+artifactory {
+    publish {
+        repoKey ='usaa-mvn-dist'
+
+        defaults {
+            publications('mavenJava')
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact distZip
+        }
+    }
+}

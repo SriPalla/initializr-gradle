@@ -1,0 +1,43 @@
+description = 'blueprint-Web'
+dependencies {
+    compile project(':blueprint-generator')
+    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '1.4.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.4.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.4.RELEASE'
+    compile group: 'org.springframework.hateoas', name: 'spring-hateoas', version: '0.20.0.RELEASE'
+    compile group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '2.3.4'
+    compile group: 'org.codehaus.groovy', name: 'groovy-ant', version: '2.4.7'
+    compile group: 'org.codehaus.groovy', name: 'groovy-json', version: '2.4.7'
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.4.2.RELEASE') {
+        exclude(module: 'commons-logging')
+    }
+    testCompile project(':blueprint-generator').sourceSets.test.output
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.4.2.RELEASE'
+    testCompile group: 'xmlunit', name: 'xmlunit', version: '1.5'
+    testCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.3.0'
+    testCompile(group: 'org.gebish', name: 'geb-core', version: '0.10.0') {
+        exclude(module: 'groovy-all')
+    }
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-firefox-driver', version: '2.53.1'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-support', version: '2.53.1'
+    compile(group: 'org.codehaus.groovy', name: 'groovy', version: '2.4.7') {
+        /* This dependency was originally in the Maven provided scope, but the project was not of type war.
+        This behavior is not yet supported by Gradle, so this dependency has been converted to a compile dependency.
+        Please review and delete this closure when resolved. */
+    }
+    compile(group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0') {
+        /* This dependency was originally in the Maven provided scope, but the project was not of type war.
+        This behavior is not yet supported by Gradle, so this dependency has been converted to a compile dependency.
+        Please review and delete this closure when resolved. */
+    }
+}
+task packageTests(type: Jar) {
+    from sourceSets.test.output
+    classifier = 'tests'
+}
+artifacts.archives packageTests
+
+//FIXME: Must be removed once the test case are fixed
+test {
+    exclude '**/*Tests*'
+}

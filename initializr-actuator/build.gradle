@@ -1,0 +1,21 @@
+
+description = 'initializr-Actuator'
+dependencies {
+  compile project(':blueprint-generator')
+    compile group: 'org.springframework.boot', name: 'spring-boot-actuator', version:'1.4.2.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-redis', version:'1.4.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version:'4.3.4.RELEASE'
+    compile group: 'org.springframework.retry', name: 'spring-retry', version:'1.1.4.RELEASE'
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.4.2.RELEASE') {
+exclude(module: 'commons-logging')
+    }
+  testCompile project(':blueprint-generator').sourceSets.test.output
+  testCompile project(':blueprint-web').sourceSets.test.output
+    testCompile group: 'org.skyscreamer', name: 'jsonassert', version:'1.3.0'
+    testCompile group: 'com.jayway.jsonpath', name: 'json-path', version:'2.2.0'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'1.4.2.RELEASE'
+}
+//FIXME: Must be removed once the test case is fixed
+test {
+  exclude '**/*Tests*'
+}

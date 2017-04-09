@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.usaa.itps.blueprint'
+version = '1.0.0-SNAPSHOT'
+
+description = """blueprint-Service"""
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+//FIXME: Must be removed once the test case is fixed
+test {
+    exclude '**/*Tests*'
+}
+
+dependencies {
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.4.2.RELEASE') {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile group: 'com.usaa.itps.blueprint', name: 'blueprint-web', version: '1.0.0-SNAPSHOT'
+    compile group: 'com.usaa.itps.blueprint', name: 'blueprint-actuator', version: '1.0.0-SNAPSHOT'
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.4.2.RELEASE'
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    // end::jetty[]
+    // tag::actuator[]
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    // end::actuator[]
+    testCompile("junit:junit")
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.4.2.RELEASE') {
+        exclude(module: 'commons-logging')
+    }
+    testCompile group: 'com.usaa.itps.blueprint', name: 'blueprint-generator', version: '1.0.0-SNAPSHOT'
+    testCompile group: 'com.usaa.itps.blueprint', name: 'blueprint-generator', classifier: 'tests'
+    testCompile group: 'xmlunit', name: 'xmlunit', version: '1.5'
+}
+

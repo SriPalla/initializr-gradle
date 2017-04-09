@@ -1,0 +1,9 @@
+
+description = 'Spring Initializr-Docs'
+dependencies {
+  compile project(':blueprint-generator')
+  compile project(':blueprint-web')
+  compile project(':blueprint-actuator')
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'1.4.5.RELEASE'
+    testCompile group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version:'1.0.3.RELEASE'
+}

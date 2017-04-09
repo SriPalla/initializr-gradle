@@ -1,0 +1,11 @@
+package com.usaa.template;
+
+import org.junit.Test;
+
+public class TemplateCreationApplicationTests {
+
+	@Test
+	public void contextLoads() {
+	}
+
+}

@@ -1,0 +1,40 @@
+description = '${description}'
+
+buildscript {
+    repositories {
+        maven { url "https://repo.usaa.com/artifactory/usaa-mvn" }
+    }
+    dependencies {
+        <%if (javaVersion == '1.8'){%>classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"<%} else {%>classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.0.1"<%}%>
+        classpath "com.usaa.plugin.gradle:gradle-build-defaults-plugin:1.+"
+        classpath 'com.usaa.plugin.gradle:gradle-ucd-plugin:1.+'
+    }
+}
+
+apply plugin: 'war'
+apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
+apply plugin: 'ucd-publish'
+apply plugin: 'build-defaults'
+
+repositories {
+    maven { url "https://repo.usaa.com/artifactory/usaa-mvn" }
+}
+
+war {
+    archiveName '${name}.war'
+}
+
+dependencies {
+    // Docs: https://docs.gradle.org/current/userguide/artifact_dependencies_tutorial.html
+
+    //Define all your project dependencies here. Below are some examples on how we could define dependencies.
+    //compile "org.jsoup:jsoup:1.5.2"
+    //runtime group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.1.3-RC-SNAPSHOT'
+    //compile fileTree(dir: 'lib', include: ['*.jar'])
+    testCompile "junit:junit:4.12"
+    //runtime files('lib/mnist-tools.jar', 'lib/gson-2.2.4.jar')
+    //compile project(":${name}")
+    //providedCompile fileTree(dir: 'webapp/WEB-INF/lib', include: ['*.jar'])
+
+}
