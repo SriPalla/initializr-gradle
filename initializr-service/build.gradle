@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE"
-        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17"
+        classpath "gradle.plugin.com.github.ksoichiro:gradle-build-info-plugin:0.2.0"
     }
 }
 
@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'com.gorylenko.gradle-git-properties'
+apply plugin: 'com.github.ksoichiro.build.info'
 apply plugin: 'org.springframework.boot'
 
 group = 'com.usaa.itps.blueprint'
@@ -60,10 +60,45 @@ dependencies {
     testCompile group: 'xmlunit', name: 'xmlunit', version: '1.5'
 }
 
-gitProperties {
-    gitPropertiesDir = new File("${project.buildDir}/git.properties")
-    dateFormat = ("yyyy-MM-dd'T'HH:mm:ssZ'")
-    gitRepositoryRoot = new File("${project.rootDir}").parentFile
+buildInfo {
+    // Date format string used to Git committer date.
+    committerDateFormat 'yyyy-MM-dd HH:mm:ss Z'
 
+    // Date format string used to build date.
+    buildDateFormat 'yyyy-MM-dd HH:mm:ss Z'
+
+    // Set to true if you want to generate/merge Manifest.MF.
+    manifestEnabled true
+
+    // Set to true if you want to generate git.properties.
+    // Default is false, but when you use Spring Boot Actuator
+    // and you don't set this property explicitly to false,
+    // git.properties will be generated.
+    gitPropertiesEnabled true
+
+    // Behavior when the plugin cannot read .git directory.
+    // Set to MODE_IGNORE if you want to ignore it and proceed task.
+    // Set to MODE_ERROR if you want to throw an exception to stop build.
+    // Default is MODE_DEFAULT.
+    // MODE_DEFAULT will set the values of branch, commit,
+    // and committer date to "unknown", then proceed task.
+    gitInfoMode com.github.ksoichiro.build.info.BuildInfoExtension.MODE_ERROR
+
+    // Set to false if you want to suppress log when .git directory
+    // cannot be read.
+    // Default is true.
+    warnIfGitDirectoryIsMissing true
+
+    // Set to false if you want to exclude some attributes
+    // from the manifest file.
+    // All properties are true by default.
+    attributeGitBranchEnabled true
+    attributeGitCommitEnabled true
+    attributeGitCommitterDateEnabled true
+    attributeBuildDateEnabled true
+    attributeBuildJavaVersionEnabled true
+    attributeBuildJavaVendorEnabled true
+    attributeBuildOsNameEnabled true
+    attributeBuildOsVersionEnabled true
 }
 
