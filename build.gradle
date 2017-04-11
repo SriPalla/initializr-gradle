@@ -6,6 +6,7 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: 'eclipse'
     apply plugin: 'groovy'
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -29,14 +30,28 @@ subprojects {
     artifacts.archives packageSources
     repositories {
         mavenLocal()
-
         maven { url "http://repo.maven.apache.org/maven2" }
+    }
+    dependencies {
+        compile 'org.codehaus.groovy:groovy-all:2.4.10'
+        testCompile'junit:junit:4.12'
+        testCompile 'org.codehaus.groovy:groovy-all:2.4.10'
+        testCompile 'org.codehaus.groovy:groovy-json:2.4.7'
+    }
+    //FIXME: Must be removed once the test case is fixed
+    test {
+        include '**/*Tests*'
+        exclude '**/Abstract*'
+        exclude '**/*SmokeTests*'
+        testLogging {
+            exceptionFormat = 'full'
+            events ('passed', 'skipped', 'failed', 'StandardOut', 'standardError')
+        }
     }
 }
 project(':blueprint-actuator') {
     dependencies {
-        compile project(':blueprint-generator')
-        compile project(':blueprint-web')
+        compile project(':blueprint-generator'), project(':blueprint-web')
     }
 }
 project(':blueprint-web') {

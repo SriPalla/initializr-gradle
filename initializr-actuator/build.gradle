@@ -15,7 +15,3 @@ exclude(module: 'commons-logging')
     testCompile group: 'com.jayway.jsonpath', name: 'json-path', version:'2.2.0'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'1.4.2.RELEASE'
 }
-//FIXME: Must be removed once the test case is fixed
-test {
-  exclude '**/*Tests*'
-}
