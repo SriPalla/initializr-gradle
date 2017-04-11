@@ -62,19 +62,19 @@ dependencies {
 
 buildInfo {
     // Date format string used to Git committer date.
-    committerDateFormat 'yyyy-MM-dd HH:mm:ss Z'
+    committerDateFormat = 'yyyy-MM-dd HH:mm:ss Z'
 
     // Date format string used to build date.
-    buildDateFormat 'yyyy-MM-dd HH:mm:ss Z'
+    buildDateFormat = 'yyyy-MM-dd HH:mm:ss Z'
 
     // Set to true if you want to generate/merge Manifest.MF.
-    manifestEnabled true
+    manifestEnabled = true
 
     // Set to true if you want to generate git.properties.
     // Default is false, but when you use Spring Boot Actuator
     // and you don't set this property explicitly to false,
     // git.properties will be generated.
-    gitPropertiesEnabled true
+    gitPropertiesEnabled = true
 
     // Behavior when the plugin cannot read .git directory.
     // Set to MODE_IGNORE if you want to ignore it and proceed task.
@@ -82,23 +82,30 @@ buildInfo {
     // Default is MODE_DEFAULT.
     // MODE_DEFAULT will set the values of branch, commit,
     // and committer date to "unknown", then proceed task.
-    gitInfoMode com.github.ksoichiro.build.info.BuildInfoExtension.MODE_ERROR
+    gitInfoMode = com.github.ksoichiro.build.info.BuildInfoExtension.MODE_ERROR
 
     // Set to false if you want to suppress log when .git directory
     // cannot be read.
     // Default is true.
-    warnIfGitDirectoryIsMissing true
+    warnIfGitDirectoryIsMissing = true
 
     // Set to false if you want to exclude some attributes
     // from the manifest file.
     // All properties are true by default.
-    attributeGitBranchEnabled true
-    attributeGitCommitEnabled true
-    attributeGitCommitterDateEnabled true
-    attributeBuildDateEnabled true
-    attributeBuildJavaVersionEnabled true
-    attributeBuildJavaVendorEnabled true
-    attributeBuildOsNameEnabled true
-    attributeBuildOsVersionEnabled true
+    attributeGitBranchEnabled = true
+    attributeGitCommitEnabled = true
+    attributeGitCommitterDateEnabled = true
+    attributeBuildDateEnabled = true
+    attributeBuildJavaVersionEnabled = true
+    attributeBuildJavaVendorEnabled = true
+    attributeBuildOsNameEnabled = true
+    attributeBuildOsVersionEnabled = true
+}
+
+bootRepackage {
+    excludeDevtools = true
+}
+springBoot {
+    buildInfo()
 }
 
