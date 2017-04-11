@@ -41,8 +41,7 @@ subprojects {
     //FIXME: Must be removed once the test case is fixed
     test {
         include '**/*Tests*'
-        exclude '**/Abstract*'
-        exclude '**/*SmokeTests*'
+        exclude '**/Abstract*', '**/*SmokeTests*'
         testLogging {
             exceptionFormat = 'full'
             events ('passed', 'skipped', 'failed', 'StandardOut', 'standardError')

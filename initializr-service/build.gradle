@@ -34,11 +34,6 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-//FIXME: Must be removed once the test case is fixed
-test {
-    exclude '**/*Tests*'
-}
-
 dependencies {
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.4.2.RELEASE') {
         exclude module: "spring-boot-starter-tomcat"
